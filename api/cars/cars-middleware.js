@@ -1,15 +1,25 @@
-const checkCarId = (req, res, next) => {
+const db = require('./cars-model');
+
+exports.checkCarId = (req, res, next) => {
+  db.getById(req.params.id)
+  .then((response) => {
+    if(response.length > 0){
+      req.car = response;
+      next();
+    }
+    else
+      res.status(404).send({ message: `car with id ${req.params.id} is not found` })
+  })
+}
+
+exports.checkCarPayload = (req, res, next) => {
   // DO YOUR MAGIC
 }
 
-const checkCarPayload = (req, res, next) => {
+exports.checkVinNumberValid = (req, res, next) => {
   // DO YOUR MAGIC
 }
 
-const checkVinNumberValid = (req, res, next) => {
-  // DO YOUR MAGIC
-}
-
-const checkVinNumberUnique = (req, res, next) => {
+exports.checkVinNumberUnique = (req, res, next) => {
   // DO YOUR MAGIC
 }
