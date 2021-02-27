@@ -27,7 +27,6 @@ exports.checkCarPayload = (req, res, next) => {
 }
 
 exports.checkVinNumberValid = (req, res, next) => {
-  // DO YOUR MAGIC
   if(vinValidator.validate(req.body.vin))
     next();
   else
@@ -35,5 +34,13 @@ exports.checkVinNumberValid = (req, res, next) => {
 }
 
 exports.checkVinNumberUnique = (req, res, next) => {
-  // DO YOUR MAGIC
+  db.getByVin(req.body.vin)
+  .then((response) => {
+    if(response.length > 0){
+      res.status(400).send({ message: `vin ${req.body.vin} already exists`});
+    }
+    else
+      next();
+  })
+
 }
