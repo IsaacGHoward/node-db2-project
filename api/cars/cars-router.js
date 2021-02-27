@@ -9,4 +9,14 @@ router.get('/', (req, res) => {
   })
 })
 
+router.get('/:id', middleware.checkCarId, (req, res) => {
+  res.send(req.car);
+})
+
+router.post('/', middleware.checkCarPayload, middleware.checkVinNumberUnique, middleware.checkVinNumberValid, (req,res) => {
+  db.create(req.body)
+  .then((response) => {
+    res.send(response);
+  })
+})
 module.exports = router;
